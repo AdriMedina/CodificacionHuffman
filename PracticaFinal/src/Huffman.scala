@@ -1,3 +1,4 @@
+
 /**
   * Created by Adri Medina on 08/06/2016.
   *
@@ -68,5 +69,28 @@ object Huffman {
     val caracteres = List.concat(obtenerCaracteres(izquierda), obtenerCaracteres(derecha))
     NodoIntermedio(izquierda, derecha, caracteres, peso)
   }
+
+  /**
+    * Calcula la frecuencia de aparición de cada caracter en el texto a analizar
+    *
+    * @param texto
+    * @return
+    */
+  def obtenerTuplasOcurrencias(texto: String) : List[(Char,Int)] = {
+    texto.toList.groupBy(c => c).mapValues(_.size).toList
+  }
+
+  /**
+    * Genera una lista con todos los nodos hojas del árbol de codificación. Debe estar ordenada por pesos
+    *
+    * @param caracteres
+    */
+  def generarListHojasOrdenadas(caracteres: List[(Char, Int)]) : List[Nodo] = {
+    caracteres.map(caracter => NodoHoja(caracter._1, caracter._2))
+  }
+
+
+
+
 
 }
