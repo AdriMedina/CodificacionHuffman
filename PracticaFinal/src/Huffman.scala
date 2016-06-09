@@ -71,26 +71,80 @@ object Huffman {
   }
 
   /**
+    * Función para pasar de una cadena de texto normal a una lista de caracteres
+    *
+    * @param cadena
+    * @return
+    */
+  def stringAListaCaracteres(cadena: String) : List[Char] = cadena.toList
+
+
+  /**
     * Calcula la frecuencia de aparición de cada caracter en el texto a analizar
     *
     * @param texto
     * @return
     */
   def obtenerTuplasOcurrencias(texto: String) : List[(Char,Int)] = {
-    texto.toList.groupBy(c => c).mapValues(_.size).toList
+    val cadena = stringAListaCaracteres(texto)
+    cadena.toList.groupBy(c => c).mapValues(_.size).toList
   }
+
 
   /**
-    * Genera una lista con todos los nodos hojas del árbol de codificación. Debe estar ordenada por pesos
+    * Genera una lista con todos los nodos hojas del árbol de codificación. Debe estar ordenada por pesos de forma ascendente
     *
     * @param caracteres
+    * @return
     */
   def generarListHojasOrdenadas(caracteres: List[(Char, Int)]) : List[Nodo] = {
-    caracteres.map(caracter => NodoHoja(caracter._1, caracter._2))
+    caracteres.map(caracter => NodoHoja(caracter._1, caracter._2)).sortBy(_.peso)
   }
 
 
+  /**
+    * Comprueba si una lista de nodos contiene un único elemento
+    *
+    * @param listaNodos
+    * @return
+    */
+  def singleton(listaNodos: List[Nodo]) : Boolean = {
+    listaNodos.size == 1
+  }
 
+
+  /**
+    * Combina todos los nodos de la lista para crear nodos intermedios
+    *
+    * @param listaNodos
+    * @return
+    */
+  def combinar(listaNodos: List[Nodo]) : List[Nodo] = {
+    if(listaNodos.isEmpty || listaNodos.size == 1) listaNodos
+    else{
+      val cola = listaNodos.tail
+      val intermedio = generarArbol(listaNodos.head, cola.head)
+      List.concat(List(intermedio),combinar(cola.tail))
+    }
+  }
+
+
+  /**
+    * Realiza llamadas a métodos anteriores hasta que la lista de nodos contenga un único elemento
+    *
+    * @param single
+    * @param combi
+    * @param arboles
+    * @return
+    */
+  def hasta(single: (List[Nodo] => Boolean), combi: (List[Nodo] => List[Nodo]))(arboles: List[Nodo]) : Nodo = {
+    if(single(arboles)){
+      arboles.head
+    }else{
+      val nivelUp = combi(arboles)
+      hasta(single, combi)(nivelUp)
+    }
+  }
 
 
 }
