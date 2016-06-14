@@ -6,7 +6,7 @@
   */
 object Main extends App{
 
-  val texto = "Hola hunndo"
+  val texto = "AABCDE"
 
   val tuplas = Huffman.obtenerTuplasOcurrencias(texto)
   println(tuplas)
@@ -14,7 +14,15 @@ object Main extends App{
   val orden = Huffman.generarListHojasOrdenadas(tuplas)
   println(orden)
 
+
   val arbol = Huffman.hasta(Huffman.singleton, Huffman.combinar)(orden)
   println(arbol)
 
+
+  val texto2 = "Hello world"
+  println(Huffman.generarArbolCodificacion(texto2))
+
+
+  val texto3 = "AAAAAAAABBBCDEFGH"
+  println(Huffman.generarArbolCodificacion(texto3))
 }

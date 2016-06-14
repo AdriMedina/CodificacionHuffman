@@ -114,18 +114,15 @@ object Huffman {
 
 
   /**
-    * Combina todos los nodos de la lista para crear nodos intermedios
+    * Combina solo los dos primeros nodos de la lista para crear un nodo intermedios
     *
     * @param listaNodos
     * @return
     */
   def combinar(listaNodos: List[Nodo]) : List[Nodo] = {
-    if(listaNodos.isEmpty || listaNodos.size == 1) listaNodos
-    else{
-      val cola = listaNodos.tail
-      val intermedio = generarArbol(listaNodos.head, cola.head)
-      List.concat(List(intermedio),combinar(cola.tail))
-    }
+    val intermedio = generarArbol(listaNodos(0), listaNodos(1))
+    val nueva = listaNodos.drop(1).drop(1)
+    (intermedio::nueva).sortWith((x,y) => calcularPeso(x) < calcularPeso(y))
   }
 
 
@@ -145,6 +142,21 @@ object Huffman {
       hasta(single, combi)(nivelUp)
     }
   }
+
+
+  /**
+    * Función que recibe como argumento la lista de caracteres a analizar y devuelve el árbol generado
+    *
+    * @param texto
+    * @return
+    */
+  def generarArbolCodificacion(texto: String): Nodo = {
+    hasta(singleton, combinar)(generarListHojasOrdenadas(obtenerTuplasOcurrencias(texto)))
+  }
+
+
+
+
 
 
 }
