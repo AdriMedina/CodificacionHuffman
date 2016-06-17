@@ -169,7 +169,7 @@ object Huffman {
     * @return
     */
   def codificarConTabla(tabla: TablaCodigo)(caracter: Char): List[Int] = {
-    tabla(caracter)._2
+    tabla.toMap.get(caracter).get
   }
 
 
@@ -193,9 +193,18 @@ object Huffman {
 
   }
 
-  /*def codificacionRapida(texto: String) : TablaCodigo = {
 
-  }*/
+  /**
+    * Funcion que permite codificar un mensaje con un árbol de codificación específico
+    *
+    * @param arbol
+    * @param mensaje
+    * @return
+    */
+  def codificacionRapida(arbol: Nodo)(mensaje: List[Char]) : List[Int] = {
+    val tabla = convertirArbolTabla(arbol)
+    mensaje.map(c => codificarConTabla(tabla)(c)).flatten
+  }
 
 
   /**
