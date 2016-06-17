@@ -24,5 +24,15 @@ object Main extends App{
 
 
   val texto3 = "AAAAAAAABBBCDEFGH"
-  println(Huffman.generarArbolCodificacion(texto3))
+  val arbol3 = Huffman.generarArbolCodificacion(texto3)
+  println(arbol3)
+
+  println(Huffman.convertirArbolTabla(arbol3))
+
+  println(Huffman.decodificar(arbol3, List(0, 1, 1, 1, 1, 0, 1, 1)))
+
+
+
+
+
 }
